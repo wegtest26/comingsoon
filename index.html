@@ -8,18 +8,31 @@
     body {
       margin: 0;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: #ffffff;
-      color: #000000;
+      background: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+      color: #ffffff;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       text-align: center;
+      position: relative;
+    }
+
+    /* Overlay to make text readable */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 0;
     }
 
     .container {
       max-width: 700px;
       padding: 40px 20px;
+      position: relative;
+      z-index: 1;
     }
 
     h1 {
@@ -40,7 +53,7 @@
     .caution {
       margin: 30px 0;
       font-weight: normal;
-      color: red;
+      color: #ff6666;
     }
 
     .coming {
@@ -56,7 +69,7 @@
     input[type="email"] {
       padding: 10px;
       font-size: 1rem;
-      border: 1px solid #ccc;
+      border: none;
       border-radius: 5px;
       width: 250px;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
