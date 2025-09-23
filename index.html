@@ -3,109 +3,261 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Researchlia™ - Coming Soon</title>
+  <title>Researchlia® - Coming Soon</title>
   <style>
     body {
       margin: 0;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
-      color: #ffffff;
+      background: #ffffff;
+      color: #000000;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      flex-direction: column;
       min-height: 100vh;
-      text-align: center;
+      overflow: hidden; /* hide scrollbars caused by canvas */
       position: relative;
     }
 
-    /* Overlay to make text readable */
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
+    canvas#bgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       z-index: 0;
     }
 
-    .container {
-      max-width: 700px;
-      padding: 40px 20px;
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      padding: 15px 30px;
+      border-bottom: 1px solid #ddd;
+      z-index: 2;
       position: relative;
-      z-index: 1;
     }
 
-    h1 {
-      font-size: 2rem;
-      font-weight: 600;
+    header h1 {
+      font-size: 36px;
       margin: 0;
+      font-weight: bold;
     }
 
-    p {
-      font-size: 1rem;
-      margin: 20px 0;
+    header h1 span {
+      font-size: 18px;
+      vertical-align: super;
     }
 
-    .italic {
-      font-style: italic;
+    /* Main content */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px 20px;
+      width: 100%;
+      z-index: 2;
+      position: relative;
+    }
+
+    main h2 {
+      font-size: 42px;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    main h2.coming-soon {
+      font-size: 36px;
+      margin: 10px 0;
+    }
+
+    main p {
+      max-width: 700px;
+      font-size: 18px;
+      margin: 15px 0;
+    }
+
+    p.coming-text {
+      font-size: 16px;
+      margin: 5px 0 15px 0;
+      max-width: 500px;
     }
 
     .caution {
-      margin: 30px 0;
-      font-weight: normal;
-      color: #ff6666;
-    }
-
-    .coming {
-      font-size: 1.5rem;
-      margin: 30px 0 10px 0;
-      font-weight: 600;
-    }
-
-    form {
+      color: red;
+      font-size: 16px;
       margin-top: 20px;
     }
 
-    input[type="email"] {
-      padding: 10px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 5px;
-      width: 250px;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    .email-form {
+      margin-top: 15px;
     }
 
-    button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      border: none;
+    .email-form input[type="email"] {
+      padding: 12px;
+      width: 300px;
+      border: 1px solid #ccc;
       border-radius: 5px;
-      background: #000;
-      color: #fff;
+      font-size: 16px;
+    }
+
+    .email-form button {
+      padding: 12px 25px;
+      border: none;
+      background: #000000;
+      color: #ffffff;
+      border-radius: 5px;
+      margin-left: 5px;
       cursor: pointer;
-      margin-left: 10px;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 16px;
     }
 
-    button:hover {
-      background: #444;
+    .email-form button:hover {
+      background: #333333;
+    }
+
+    /* Footer - thin single line */
+    footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-top: 1px solid #ddd;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      font-size: 14px;
+      flex-wrap: wrap;
+      z-index: 2;
+    }
+
+    footer strong {
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Researchlia™</h1>
-    <p class="italic">A global community of researchers where diverse voices are heard.</p>
 
-    <p class="caution">Caution: Researchlia™ is a Legally Registered Brand.</p>
+  <canvas id="bgCanvas"></canvas>
 
-    <p class="coming">Coming Soon</p>
-    <p class="italic">Be the first to receive welcome notes from us.</p>
+  <!-- Header -->
+  <header>
+    <h1>
+      Researchlia<span>®</span>
+    </h1>
+  </header>
 
-    <form action="#" method="post">
-      <input type="email" name="email" placeholder="Enter your email" required>
+  <!-- Main Section -->
+  <main>
+    <h2>
+      <em style="font-style: italic; font-weight: bold;">
+        A global community <span style="font-style: normal; font-weight: normal;">of</span><br>
+        researchers where diverss<br> voices are heard.
+      </em>
+    </h2>
+
+    <p class="caution">
+      Caution: Researchlia® is legally registered and trademark-protected. 
+      Researchlia and the Researchlia logo are registered trademarks of Researchlia.
+    </p>
+
+    <h2 class="coming-soon">Coming Soon</h2>
+    <p class="coming-text">Be the first to receive welcome notes from us.</p>
+
+    <!-- Email form -->
+    <form class="email-form">
+      <input type="email" placeholder="Enter your email" required>
       <button type="submit">Notify Me</button>
     </form>
-  </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <strong>Researchlia®</strong> | Copyright © 2025 Researchlia. All rights reserved.
+  </footer>
+
+  <script>
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    const particles = [];
+    const particleCount = 60;
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    class Particle {
+      constructor() {
+        this.x = random(0, width);
+        this.y = random(0, height);
+        this.radius = random(2, 5);
+        this.speedX = random(-0.5, 0.5);
+        this.speedY = random(-0.5, 0.5);
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,0,0,0.7)';
+        ctx.fill();
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x < 0 || this.x > width) this.speedX *= -1;
+        if (this.y < 0 || this.y > height) this.speedY *= -1;
+      }
+    }
+
+    function initParticles() {
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+
+      // Draw lines between close particles
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    initParticles();
+    animate();
+  </script>
 </body>
 </html>
