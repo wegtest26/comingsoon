@@ -8,12 +8,12 @@
     body {
       margin: 0;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: #ffffff;
-      color: #000000;
+      background: #0d0d0d;
+      color: #ffffff;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      overflow: hidden; /* hide scrollbars caused by canvas */
+      overflow: hidden;
       position: relative;
     }
 
@@ -31,7 +31,7 @@
       display: flex;
       align-items: center;
       padding: 15px 30px;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #222;
       z-index: 2;
       position: relative;
     }
@@ -40,6 +40,7 @@
       font-size: 36px;
       margin: 0;
       font-weight: bold;
+      color: #ffffff;
     }
 
     header h1 span {
@@ -66,19 +67,23 @@
       font-size: 50px;
       margin-bottom: 10px;
       line-height: 1.3;
-      
+      max-width: 900px;
+      color: #00cff;
     }
 
     main h2.coming-soon {
       font-size: 36px;
-      margin: 10px 0;
-      
+      margin: 20px 0;
+      text-align: center;
+      width: 100%;
+      color: #ffffff;
     }
 
     main p {
       max-width: 700px;
       font-size: 18px;
       margin: 15px 0;
+      color: #cccccc;
     }
 
     p.coming-text {
@@ -88,7 +93,7 @@
     }
 
     .caution {
-      color: red;
+      color: #ff5555;
       font-size: 16px;
       margin-top: 20px;
     }
@@ -100,46 +105,51 @@
     .email-form input[type="email"] {
       padding: 12px;
       width: 300px;
-      border: 1px solid #ccc;
+      border: 1px solid #555;
       border-radius: 5px;
       font-size: 16px;
+      background: #111;
+      color: #fff;
     }
 
     .email-form button {
       padding: 12px 25px;
       border: none;
-      background: #000000;
-      color: #ffffff;
+      background: #00c8ff;
+      color: #000;
       border-radius: 5px;
       margin-left: 5px;
       cursor: pointer;
       font-size: 16px;
+      font-weight: bold;
     }
 
     .email-form button:hover {
-      background: #333333;
+      background: #00e0ff;
     }
 
-    /* Footer - thin single line */
+    /* Footer */
     footer {
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 5px;
       padding: 5px 10px;
-      border-top: 1px solid #ddd;
+      border-top: 1px solid #222;
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: #ffffff;
+      background: #0d0d0d;
       font-size: 14px;
       flex-wrap: wrap;
       z-index: 2;
+      color: #888;
     }
 
     footer strong {
       font-weight: 600;
+      color: #00c8ff;
     }
   </style>
 </head>
@@ -157,9 +167,9 @@
   <!-- Main Section -->
   <main>
     <h2>
-      <em style="font-style: italic; font-weight: bold;">
-        A global community <span style="font-style: normal; font-weight: normal;"><em>of</em></span><br>
-        researchers where diverss<br> voices are heard.
+      <em>
+        A global community <span style="font-style: normal; font-weight: normal;">of</span><br>
+        researchers where divers voices are heard.
       </em>
     </h2>
 
@@ -171,7 +181,6 @@
     <h2 class="coming-soon">Coming Soon</h2>
     <p class="coming-text">Be the first to receive welcome notes from us.</p>
 
-    <!-- Email form -->
     <form class="email-form">
       <input type="email" placeholder="Enter your email" required>
       <button type="submit">Notify Me</button>
@@ -190,7 +199,8 @@
     let height = canvas.height = window.innerHeight;
 
     const particles = [];
-    const particleCount = 60;
+    const particleCount = 80; // more particles for effect
+    const mouse = { x: null, y: null };
 
     function random(min, max) {
       return Math.random() * (max - min) + min;
@@ -201,14 +211,16 @@
         this.x = random(0, width);
         this.y = random(0, height);
         this.radius = random(2, 5);
-        this.speedX = random(-0.5, 0.5);
-        this.speedY = random(-0.5, 0.5);
+        this.speedX = random(-1, 1);
+        this.speedY = random(-1, 1);
       }
 
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0,0,0,0.7)';
+        ctx.fillStyle = 'rgba(0,200,255,0.7)';
+        ctx.shadowColor = 'rgba(0,200,255,0.5)';
+        ctx.shadowBlur = 8;
         ctx.fill();
       }
 
@@ -216,8 +228,20 @@
         this.x += this.speedX;
         this.y += this.speedY;
 
+        // bounce on edges
         if (this.x < 0 || this.x > width) this.speedX *= -1;
         if (this.y < 0 || this.y > height) this.speedY *= -1;
+
+        // repel from mouse
+        if(mouse.x && mouse.y) {
+          const dx = this.x - mouse.x;
+          const dy = this.y - mouse.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if(dist < 100){
+            this.x += dx/20;
+            this.y += dy/20;
+          }
+        }
       }
     }
 
@@ -230,20 +254,21 @@
     function animate() {
       ctx.clearRect(0, 0, width, height);
 
+      // update & draw particles
       particles.forEach(p => {
         p.update();
         p.draw();
       });
 
-      // Draw lines between close particles
+      // draw connecting lines
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist < 100) {
+          if(dist < 120){
             ctx.beginPath();
-            ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+            ctx.strokeStyle = `rgba(0,200,255,${1 - dist/120})`;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
             ctx.stroke();
@@ -257,6 +282,16 @@
     window.addEventListener('resize', () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
+    });
+
+    window.addEventListener('mousemove', e => {
+      mouse.x = e.x;
+      mouse.y = e.y;
+    });
+
+    window.addEventListener('mouseout', () => {
+      mouse.x = null;
+      mouse.y = null;
     });
 
     initParticles();
