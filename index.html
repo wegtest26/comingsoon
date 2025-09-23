@@ -78,10 +78,13 @@
   </p>
   <h2 class="coming-soon">Coming Soon</h2>
   <p class="coming-text">Be the first to receive welcome notes from us.</p>
-  <form class="email-form">
-    <input type="email" placeholder="Enter your email" required>
+
+  <!-- Google Sheets email form -->
+  <form class="email-form" id="notifyForm">
+    <input type="email" name="email" id="emailInput" placeholder="Enter your email" required>
     <button type="submit">Notify Me</button>
   </form>
+  <p id="successMsg" style="color:#00ffcc; margin-top:10px; display:none;">Thank you! You are subscribed.</p>
 </main>
 
 <footer>
@@ -94,11 +97,11 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+// Right-side network nodes
 const nodes = [];
-const nodeCount = 25; // fewer nodes
-const rightZoneStart = canvas.width * 0.6; // right 40%
+const nodeCount = 25;
+const rightZoneStart = canvas.width * 0.6;
 
-// Initialize nodes only on right side
 for (let i = 0; i < nodeCount; i++) {
   nodes.push({
     x: Math.random() * (canvas.width - rightZoneStart) + rightZoneStart,
@@ -112,7 +115,6 @@ for (let i = 0; i < nodeCount; i++) {
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw lines between close nodes
   for (let i = 0; i < nodes.length; i++) {
     for (let j = i + 1; j < nodes.length; j++) {
       const dx = nodes[i].x - nodes[j].x;
@@ -128,18 +130,15 @@ function draw() {
     }
   }
 
-  // Draw nodes
   nodes.forEach(n => {
     ctx.beginPath();
     ctx.arc(n.x, n.y, n.radius, 0, Math.PI*2);
     ctx.fillStyle = 'rgba(0,255,255,0.8)';
     ctx.fill();
 
-    // Move node
     n.x += n.vx;
     n.y += n.vy;
 
-    // keep inside right zone
     if (n.x > canvas.width) n.x = rightZoneStart;
     if (n.x < rightZoneStart) n.x = canvas.width;
     if (n.y > canvas.height) n.y = 0;
@@ -150,10 +149,26 @@ function draw() {
 }
 
 draw();
+window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
 
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+// Google Sheets integration
+const form = document.getElementById('notifyForm');
+const successMsg = document.getElementById('successMsg');
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const email = document.getElementById('emailInput').value;
+  fetch('https://script.google.com/macros/s/AKfycbzSAee-TFxevJN1LzhzS4Q5SJFv2jRQVqbZIqIiXTjTn0IoOCW6f_1JHgOpMrYIx4ffoQ/exec', { // replace with your Google Apps Script URL
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: 'email=' + encodeURIComponent(email)
+  }).then(() => {
+    successMsg.style.display = 'block';
+    form.reset();
+  }).catch(err => {
+    alert('Error submitting email. Try again.');
+    console.error(err);
+  });
 });
 </script>
 
