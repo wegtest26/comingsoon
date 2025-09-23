@@ -1,301 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Researchlia® - Coming Soon</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: #0d0d0d;
-      color: #ffffff;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      overflow: hidden;
-      position: relative;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Researchlia® - Coming Soon</title>
+<style>
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #3d3d3d;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
 
-    canvas#bgCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-    }
+  canvas#bgCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
 
-    /* Header */
-    header {
-      display: flex;
-      align-items: center;
-      padding: 15px 30px;
-      border-bottom: 1px solid #222;
-      z-index: 2;
-      position: relative;
-    }
+  header, main, footer { position: relative; z-index: 2; }
 
-    header h1 {
-      font-size: 36px;
-      margin: 0;
-      font-weight: bold;
-      color: #ffffff;
-    }
+  header { display: flex; align-items: center; padding: 15px 30px; border-bottom: 1px solid #808080; }
+  header h1 { font-size: 36px; margin: 0; font-weight: bold; color: #ffffff; }
+  header h1 span { font-size: 18px; vertical-align: super; }
 
-    header h1 span {
-      font-size: 18px;
-      vertical-align: super;
-    }
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 20px;
+    transform: translateY(-50px);
+  }
 
-    /* Main content */
-    main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 20px 20px;
-  width: 100%;
-  z-index: 2;
-  position: relative;
-  transform: translateY(-50px); /* moves content 50px up */
-}
+  main h2 { font-size: 50px; margin-bottom: 10px; line-height: 1.3; max-width: 900px; color: #00cff; }
+  main h2.coming-soon { font-size: 36px; margin: 20px 0; color: #ffffff; }
+  main p { max-width: 700px; font-size: 18px; margin: 15px 0; color: #cccccc; }
+  p.coming-text { font-size: 16px; margin: 5px 0 15px 0; max-width: 500px; }
+  .caution { color: #ff5555; font-size: 18px; margin-top: 20px; }
+  .email-form { margin-top: 15px; }
+  .email-form input[type="email"] { padding: 12px; width: 300px; border: 1px solid #555; border-radius: 5px; font-size: 16px; background: #2f2f2f; color: #fff; }
+  .email-form button { padding: 12px 25px; border: none; background: #f0f0f0; color: #2f2f2f; border-radius: 5px; margin-left: 5px; cursor: pointer; font-size: 16px; font-weight: bold; }
+  .email-form button:hover { background: #00e0ff; }
 
-    main h2 {
-      font-size: 50px;
-      margin-bottom: 10px;
-      line-height: 1.3;
-      max-width: 900px;
-      color: #00cff;
-    }
-
-    main h2.coming-soon {
-      font-size: 36px;
-      margin: 20px 0;
-      text-align: center;
-      width: 100%;
-      color: #ffffff;
-    }
-
-    main p {
-      max-width: 700px;
-      font-size: 18px;
-      margin: 15px 0;
-      color: #cccccc;
-    }
-
-    p.coming-text {
-      font-size: 16px;
-      margin: 5px 0 15px 0;
-      max-width: 500px;
-    }
-
-    .caution {
-      color: #ff5555;
-      font-size: 16px;
-      margin-top: 20px;
-    }
-
-    .email-form {
-      margin-top: 15px;
-    }
-
-    .email-form input[type="email"] {
-      padding: 12px;
-      width: 300px;
-      border: 1px solid #555;
-      border-radius: 5px;
-      font-size: 16px;
-      background: #111;
-      color: #fff;
-    }
-
-    .email-form button {
-      padding: 12px 25px;
-      border: none;
-      background: #00c8ff;
-      color: #000;
-      border-radius: 5px;
-      margin-left: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .email-form button:hover {
-      background: #00e0ff;
-    }
-
-    /* Footer */
-    footer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 10px;
-      border-top: 1px solid #222;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #0d0d0d;
-      font-size: 14px;
-      flex-wrap: wrap;
-      z-index: 2;
-      color: #888;
-    }
-
-    footer strong {
-      font-weight: 600;
-      color: #00c8ff;
-    }
-  </style>
+  footer { display: flex; justify-content: center; align-items: center; gap: 5px; padding: 5px 10px; border-top: 1px solid #808080; position: fixed; bottom: 0; left: 0; right: 0; font-size: 14px; flex-wrap: wrap; color: #888; }
+  footer strong { font-weight: 600; color: #fff; }
+</style>
 </head>
 <body>
 
-  <canvas id="bgCanvas"></canvas>
+<canvas id="bgCanvas"></canvas>
 
-  <!-- Header -->
-  <header>
-    <h1>
-      Researchlia<span>®</span>
-    </h1>
-  </header>
+<header>
+  <h1>Researchlia<span>®</span></h1>
+</header>
 
-  <!-- Main Section -->
-  <main>
-    <h2>
-      <em>
-        A global community <span style="font-style: normal; font-weight: normal;"><em>of</em></span><br>
-        researchers where divers voices are heard.
-      </em>
-    </h2>
+<main>
+  <h2>
+    <em>
+      A global community <span style="font-style: normal; font-weight: normal;"><em>of</em></span><br>
+      researchers where diverse voices are heard.
+    </em>
+  </h2>
+  <p class="caution" style="font-weight: bold;">
+    Caution: Researchlia® is legally registered and trademark-protected. 
+    Researchlia and the Researchlia logo are registered trademarks of Researchlia.
+  </p>
+  <h2 class="coming-soon">Coming Soon</h2>
+  <p class="coming-text">Be the first to receive welcome notes from us.</p>
+  <form class="email-form">
+    <input type="email" placeholder="Enter your email" required>
+    <button type="submit">Notify Me</button>
+  </form>
+</main>
 
-    <p class="caution">
-      Caution: Researchlia® is legally registered and trademark-protected. 
-      Researchlia and the Researchlia logo are registered trademarks of Researchlia.
-    </p>
+<footer>
+  <strong>Researchlia®</strong> | Copyright © 2025 Researchlia. All rights reserved.
+</footer>
 
-    <h2 class="coming-soon">Coming Soon</h2>
-    <p class="coming-text">Be the first to receive welcome notes from us.</p>
+<script>
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-    <form class="email-form">
-      <input type="email" placeholder="Enter your email" required>
-      <button type="submit">Notify Me</button>
-    </form>
-  </main>
+const nodes = [];
+const nodeCount = 25; // fewer nodes
+const rightZoneStart = canvas.width * 0.6; // right 40%
 
-  <!-- Footer -->
-  <footer>
-    <strong>Researchlia®</strong> | Copyright © 2025 Researchlia. All rights reserved.
-  </footer>
+// Initialize nodes only on right side
+for (let i = 0; i < nodeCount; i++) {
+  nodes.push({
+    x: Math.random() * (canvas.width - rightZoneStart) + rightZoneStart,
+    y: Math.random() * canvas.height,
+    radius: Math.random() * 2 + 1,
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: (Math.random() - 0.5) * 0.3
+  });
+}
 
-  <script>
-    const canvas = document.getElementById('bgCanvas');
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const particles = [];
-    const particleCount = 80; // more particles for effect
-    const mouse = { x: null, y: null };
-
-    function random(min, max) {
-      return Math.random() * (max - min) + min;
-    }
-
-    class Particle {
-      constructor() {
-        this.x = random(0, width);
-        this.y = random(0, height);
-        this.radius = random(2, 5);
-        this.speedX = random(-1, 1);
-        this.speedY = random(-1, 1);
-      }
-
-      draw() {
+  // Draw lines between close nodes
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 100) {
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0,200,255,0.7)';
-        ctx.shadowColor = 'rgba(0,200,255,0.5)';
-        ctx.shadowBlur = 8;
-        ctx.fill();
-      }
-
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        // bounce on edges
-        if (this.x < 0 || this.x > width) this.speedX *= -1;
-        if (this.y < 0 || this.y > height) this.speedY *= -1;
-
-        // repel from mouse
-        if(mouse.x && mouse.y) {
-          const dx = this.x - mouse.x;
-          const dy = this.y - mouse.y;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-          if(dist < 100){
-            this.x += dx/20;
-            this.y += dy/20;
-          }
-        }
+        ctx.strokeStyle = 'rgba(0,255,255,' + (1 - dist/100) + ')';
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.stroke();
       }
     }
+  }
 
-    function initParticles() {
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-      }
-    }
+  // Draw nodes
+  nodes.forEach(n => {
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.radius, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(0,255,255,0.8)';
+    ctx.fill();
 
-    function animate() {
-      ctx.clearRect(0, 0, width, height);
+    // Move node
+    n.x += n.vx;
+    n.y += n.vy;
 
-      // update & draw particles
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
+    // keep inside right zone
+    if (n.x > canvas.width) n.x = rightZoneStart;
+    if (n.x < rightZoneStart) n.x = canvas.width;
+    if (n.y > canvas.height) n.y = 0;
+    if (n.y < 0) n.y = canvas.height;
+  });
 
-      // draw connecting lines
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-          if(dist < 120){
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(0,200,255,${1 - dist/120})`;
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
-      }
+  requestAnimationFrame(draw);
+}
 
-      requestAnimationFrame(animate);
-    }
+draw();
 
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
 
-    window.addEventListener('mousemove', e => {
-      mouse.x = e.x;
-      mouse.y = e.y;
-    });
-
-    window.addEventListener('mouseout', () => {
-      mouse.x = null;
-      mouse.y = null;
-    });
-
-    initParticles();
-    animate();
-  </script>
 </body>
 </html>
